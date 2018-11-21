@@ -24,32 +24,12 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         if (root == null) {
             root = newNode;
             return true;
-        } else {
-            return this.insertNewNode(newNode);
         }
-    }
-
-    public boolean delete(T data) {
-        return false;
-    }
-
-    public void traversePrint() {
-
-    }
-
-    /**
-     * 插入新节点
-     * @param newNode
-     * @return
-     */
-    private boolean insertNewNode(TreeNode<T> newNode) {
         TreeNode<T> currentNode = root;
         TreeNode<T> parentNode;
         boolean isLeft;
-
         while (currentNode != null) {
             parentNode = currentNode;
-
             // 插入的数据小于当前值，取左子树
             if (currentNode.getData().compareTo(newNode.getData()) > 0) {
                 currentNode = currentNode.getLeftChild();
@@ -70,6 +50,14 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
             }
         }
         return false;
+    }
+
+    public boolean delete(T data) {
+        return false;
+    }
+
+    public void traversePrint() {
+
     }
 
     // ------------------------------------- test --------------------------------------
