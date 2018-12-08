@@ -1,4 +1,4 @@
-package com.datastructure.demo.tree;
+package com.datastructure.demo.algo.tree;
 
 /**
  * 树

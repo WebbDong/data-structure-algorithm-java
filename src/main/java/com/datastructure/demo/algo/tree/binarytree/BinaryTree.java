@@ -1,8 +1,8 @@
-package com.datastructure.demo.tree.binarytree;
+package com.datastructure.demo.algo.tree.binarytree;
 
 import com.datastructure.demo.model.Person;
-import com.datastructure.demo.tree.Tree;
-import com.datastructure.demo.tree.TreeNode;
+import com.datastructure.demo.algo.tree.Tree;
+import com.datastructure.demo.algo.tree.TreeNode;
 import lombok.Data;
 
 /**
