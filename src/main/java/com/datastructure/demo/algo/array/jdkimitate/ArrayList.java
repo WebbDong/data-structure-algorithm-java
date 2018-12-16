@@ -87,13 +87,37 @@ public class ArrayList<T> implements List<T> {
     public T remove(int index) {
         rangeCheck(index);
         T oldValue = elementData[index];
-
+        fastRemove(index);
         return oldValue;
     }
 
     @Override
     public boolean remove(Object o) {
+        if (o == null) {
+            for (int i = 0; i < size; i++) {
+                if (elementData[i] == null) {
+                    fastRemove(i);
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (o.equals(elementData[i])) {
+                    fastRemove(i);
+                    return true;
+                }
+            }
+        }
         return false;
+    }
+
+    private void fastRemove(int index) {
+        int numMoved = size - index - 1;
+        if (numMoved > 0) {
+            // 移位
+            System.arraycopy(elementData, index + 1, elementData, index, numMoved);
+        }
+        elementData[--size] = null;
     }
 
     @Override
