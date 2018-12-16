@@ -14,12 +14,14 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
 
     private TreeNode<T> root;
 
+    @Override
     public TreeNode find(T data) {
         return null;
     }
 
+    @Override
     public boolean insert(T data) {
-        TreeNode<T> newNode = new TreeNode<T>(data);
+        TreeNode<T> newNode = new TreeNode<>(data);
         // 如果是空树，直接赋值给root
         if (root == null) {
             root = newNode;
@@ -52,10 +54,12 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         return false;
     }
 
+    @Override
     public boolean delete(T data) {
         return false;
     }
 
+    @Override
     public void traversePrint() {
 
     }
@@ -67,7 +71,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
     }
 
     public static void testInsert() {
-        Tree<Integer> tree = new BinaryTree<Integer>();
+        Tree<Integer> tree = new BinaryTree<>();
         tree.insert(25);
         tree.insert(23);
         tree.insert(18);
