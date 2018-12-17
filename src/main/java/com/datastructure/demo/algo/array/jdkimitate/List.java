@@ -2,23 +2,23 @@ package com.datastructure.demo.algo.array.jdkimitate;
 
 /**
  * List接口
- * @param <T>
+ * @param <E>
  */
-public interface List<T> {
+public interface List<E> {
 
     /**
      * 添加新元素到指定位置
      * @param index
      * @param e
      */
-    void add(int index, T e);
+    void add(int index, E e);
 
     /**
      * 获取指定位置的元素
      * @param index
      * @return
      */
-    T get(int index);
+    E get(int index);
 
     /**
      * 设置指定位置的元素
@@ -26,7 +26,7 @@ public interface List<T> {
      * @param e
      * @return
      */
-    T set(int index, T e);
+    E set(int index, E e);
 
     /**
      * 从头到尾，查询某个元素的位置
@@ -48,7 +48,7 @@ public interface List<T> {
      * @param toIndex
      * @return
      */
-    List<T> subList(int fromIndex, int toIndex);
+    List<E> subList(int fromIndex, int toIndex);
 
     /**
      * 元素个数
@@ -74,21 +74,21 @@ public interface List<T> {
      * @param e
      * @return
      */
-    boolean add(T e);
+    boolean add(E e);
 
     /**
      * 添加多个元素
      * @param c
      * @return
      */
-    boolean addAll(List<? extends T> c);
+    boolean addAll(List<? extends E> c);
 
     /**
      * 删除指定位置的元素
      * @param index
      * @return
      */
-    T remove(int index);
+    E remove(int index);
 
     /**
      * 删除指定的元素值
@@ -100,9 +100,29 @@ public interface List<T> {
     /**
      * 删除多个元素
      * @param c
-     * @return
+     * @return 当原数组元素个数发生了变化时返回true，否则返回false
      */
     boolean removeAll(List<?> c);
+
+    /**
+     * 取的2个集合的交集元素，当判断2个元素是否有交集时，要调用之后判断size的大小。不为0就表示有交集
+     * @param c
+     * @return 当原数组元素个数发生了变化时返回true，否则返回false
+     */
+    boolean retainAll(List<?> c);
+
+    /**
+     * 转换成数组
+     * @return
+     */
+    Object[] toArray();
+
+    /**
+     * 转换成数组
+     * @param a
+     * @return
+     */
+    <T> T[] toArray(T[] a);
 
     /**
      * 清空所有元素

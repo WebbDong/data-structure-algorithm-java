@@ -1,12 +1,13 @@
 package com.datastructure.demo.algo.array.jdkimitate;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * 模仿jdk ArrayList
- * @param <T>
+ * @param <E>
  */
-public class ArrayList<T> implements List<T> {
+public class ArrayList<E> implements List<E> {
 
     private static final Object[] EMPTY_ELEMENTDATA = {};
 
@@ -19,7 +20,7 @@ public class ArrayList<T> implements List<T> {
     /**
      * 数据
      */
-    private T[] elementData;
+    private E[] elementData;
 
     /**
      * 实际元素个数
@@ -30,7 +31,7 @@ public class ArrayList<T> implements List<T> {
      *
      */
     public ArrayList() {
-        this.elementData = (T[]) DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+        this.elementData = (E[]) DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
     }
 
     /**
@@ -39,16 +40,16 @@ public class ArrayList<T> implements List<T> {
      */
     public ArrayList(int initialCapacity) {
         if (initialCapacity > 0) {
-            this.elementData = (T[]) new Object[initialCapacity];
+            this.elementData = (E[]) new Object[initialCapacity];
         } else if (initialCapacity == 0) {
-            this.elementData = (T[]) EMPTY_ELEMENTDATA;
+            this.elementData = (E[]) EMPTY_ELEMENTDATA;
         } else {
             throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
         }
     }
 
     @Override
-    public void add(int index, T e) {
+    public void add(int index, E e) {
         rangeCheckForAdd(index);
         ensureCapacityInternal(size + 1);
         // 以index指定的位置的元素为起始点，将后面的所有元素向后移动一位
@@ -58,35 +59,35 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public T get(int index) {
+    public E get(int index) {
         rangeCheck(index);
         return elementData[index];
     }
 
     @Override
-    public boolean add(T e) {
+    public boolean add(E e) {
         ensureCapacityInternal(size + 1);
         elementData[size++] = e;
         return true;
     }
 
     @Override
-    public boolean addAll(List<? extends T> c) {
+    public boolean addAll(List<? extends E> c) {
         return false;
     }
 
     @Override
-    public T set(int index, T e) {
+    public E set(int index, E e) {
         rangeCheck(index);
-        T oldValue = elementData[index];
+        E oldValue = elementData[index];
         elementData[index] = e;
         return oldValue;
     }
 
     @Override
-    public T remove(int index) {
+    public E remove(int index) {
         rangeCheck(index);
-        T oldValue = elementData[index];
+        E oldValue = elementData[index];
         fastRemove(index);
         return oldValue;
     }
@@ -122,7 +123,66 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean removeAll(List<?> c) {
-        return false;
+        Objects.requireNonNull(c);
+        return batchRemove(c, false);
+    }
+
+    @Override
+    public boolean retainAll(List<?> c) {
+        Objects.requireNonNull(c);
+        return batchRemove(c, true);
+    }
+
+    @Override
+    public Object[] toArray() {
+        return Arrays.copyOf(elementData, size);
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        if (a.length < size) {
+            return (T[]) Arrays.copyOf(elementData, size, a.getClass());
+        }
+        System.arraycopy(elementData, 0, a, 0, size);
+        if (a.length > size) {
+            a[size] = null;
+        }
+        return a;
+    }
+
+    /**
+     * 批量删除
+     * @param c
+     * @param complement
+     * @return 当原数组元素个数发生了变化时返回true，否则返回false
+     */
+    private boolean batchRemove(List<?> c, boolean complement) {
+        final E[] elementData = this.elementData;
+        int r = 0, w = 0;
+        boolean modified = false;
+        try {
+            for (; r < size; r++) {
+                if (c.contains(elementData[r]) == complement) {
+                    elementData[w++] = elementData[r];
+                }
+            }
+        } finally {
+            // 如果contains方法抛出异常，将中断后的剩下元素进行复制
+            if (r != size) {
+                System.arraycopy(elementData, r, elementData, w, size - r);
+                w += size - r;
+            }
+
+            // 将移位后的多余数据置为null
+            if (w != size) {
+                for (int i = w; i < size; i++) {
+                    elementData[i] = null;
+                }
+                size = w;
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
@@ -162,7 +222,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
+    public List<E> subList(int fromIndex, int toIndex) {
         return null;
     }
 
@@ -193,7 +253,7 @@ public class ArrayList<T> implements List<T> {
         ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));
     }
 
-    private int calculateCapacity(T[] elementData, int minCapacity) {
+    private int calculateCapacity(E[] elementData, int minCapacity) {
         if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
             return Math.max(DEFAULT_CAPACITY, minCapacity);
         }
@@ -206,6 +266,10 @@ public class ArrayList<T> implements List<T> {
         }
     }
 
+    /**
+     * 扩容数组
+     * @param minCapacity
+     */
     private void grow(int minCapacity) {
         int oldCapacity = elementData.length;
         int newCapacity = oldCapacity + (oldCapacity >> 1);
@@ -242,7 +306,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     public static void main(String[] args) {
-        /*int[] arr = {
+/*        int[] arr = {
                 1, 2, 3, 4, 5, 6
         };
         int[] newArr = Arrays.copyOf(arr, arr.length);
@@ -266,7 +330,45 @@ public class ArrayList<T> implements List<T> {
         list.set(2, 5000);
         list.add(10, 9000);
         printAll(list);
+        System.out.println("total：" + list.size());
         System.out.println();
+
+        List<Integer> removeList = new ArrayList<>();
+        removeList.add(89);
+        removeList.add(90);
+        removeList.add(91);
+        removeList.add(92);
+        removeList.add(93);
+        removeList.add(94);
+        removeList.add(95);
+        removeList.add(96);
+        removeList.add(97);
+        removeList.add(98);
+        removeList.add(99);
+        removeList.add(100);
+        list.removeAll(removeList);
+        System.out.println("---------------------------------------");
+        printAll(list);
+        System.out.println("total：" + list.size());
+
+        System.out.println("---------------------------------------");
+        List<Integer> retainList = new ArrayList<>();
+        retainList.add(85);
+        retainList.add(86);
+        retainList.add(87);
+        retainList.add(88);
+        list.retainAll(retainList);
+        printAll(list);
+        System.out.println("total：" + list.size());
+        System.out.println("---------------------------------------");
+
+        Object[] arr = list.toArray();
+        System.out.println(Arrays.toString(arr));
+
+        System.out.println("---------------------------------------");
+        Integer[] integerArr = new Integer[20];
+        list.toArray(integerArr);
+        System.out.println(Arrays.toString(integerArr));
     }
 
     private static void printAll(List<Integer> list) {
