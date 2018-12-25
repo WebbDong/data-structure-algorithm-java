@@ -82,7 +82,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         tree.insert(9);
         System.out.println(tree);
 
-        Tree<Person> tree2 = new BinaryTree<Person>();
+        Tree<Person> tree2 = new BinaryTree<>();
         tree2.insert(new Person(25, "person1"));
         tree2.insert(new Person(23, "person2"));
         tree2.insert(new Person(18, "person3"));
