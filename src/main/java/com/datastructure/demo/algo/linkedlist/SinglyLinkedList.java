@@ -227,50 +227,41 @@ public class SinglyLinkedList<T> {
     }
 
     /**
-     * 反转链表
+     * 反转链表，直接修改原链表
      */
     public SinglyNode<T> inverse() {
-        // 正在遍历的节点
+        // 当前节点
         SinglyNode<T> current = head;
-        // 下一个要遍历的节点
+        // 下一个节点
         SinglyNode<T> next;
-        // 新链表头节点的引用(指向新链表头节点的指针)
+        // 新头节点
         SinglyNode<T> newHead = null;
         while (current != null) {
-            // 将下一个要遍历的节点暂存起来
             next = current.getNext();
-
-            /**
-             * 将当前节点放到新链表的头部：
-             *    1>将当前节点指向新链表的头部
-             *    2>更新newHead
-             */
             current.setNext(newHead);
             newHead = current;
-            // 向后继续遍历
             current = next;
         }
         head = newHead;
         return newHead;
     }
 
-    public SinglyNode<T> inverseLinkList(SinglyNode<T> p){
-        SinglyNode<T> pre = null;
-        SinglyNode<T> r = head;
-        SinglyNode<T> next= null;
-        while(r !=p){
-            next = r.getNext();
+    /**
+     * 反转链表，返回反转后的新头节点，不修改原链表
+     * @return
+     */
+    public SinglyNode<T> inverseLinkedList() {
+        // 当前节点
+        SinglyNode<T> current = head;
+        // 下一个节点
+        SinglyNode<T> next;
+        // 新头节点
+        SinglyNode<T> newHead;
+        while (current != null) {
+            next = current.getNext();
 
-            r.setNext(pre);
-            pre = r;
-            r = next;
+            current = next;
         }
-
-        r.setNext(pre);
-        //　返回左半部分的中点之前的那个节点
-        //　从此处开始同步像两边比较
-        return r;
-
     }
 
     /**
@@ -355,7 +346,17 @@ public class SinglyLinkedList<T> {
         System.out.println("-------------- inverse -----------------");
         list2.printAll();
         list2.inverse();
-//        list2.inverseLinkList(list2.head);
+        list2.printAll();
+
+        System.out.println("-------------- inverseLinkList -----------------");
+        SinglyNode<Integer> node5 = list2.findByValue(2000);
+        SinglyNode<Integer> integerSinglyNode = list2.inverseLinkList(node5);
+        SinglyNode<Integer> currentNode = integerSinglyNode;
+        while (currentNode != null) {
+            System.out.print(currentNode.getData() + ", ");
+            currentNode = currentNode.getNext();
+        }
+        System.out.println();
         list2.printAll();
     }
 
