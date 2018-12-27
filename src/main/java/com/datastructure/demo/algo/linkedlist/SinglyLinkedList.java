@@ -230,9 +230,9 @@ public class SinglyLinkedList<T> {
      * 反转链表，直接修改原链表
      */
     public SinglyNode<T> inverse() {
-        // 当前节点
+        // 遍历的当前节点
         SinglyNode<T> current = head;
-        // 下一个节点
+        // 遍历的下一个节点
         SinglyNode<T> next;
         // 新头节点
         SinglyNode<T> newHead = null;
@@ -251,24 +251,37 @@ public class SinglyLinkedList<T> {
      * @return
      */
     public SinglyNode<T> inverseLinkedList() {
-        // 当前节点
+        // 遍历的当前节点
         SinglyNode<T> current = head;
-        // 下一个节点
+        // 遍历的下一个节点
         SinglyNode<T> next;
         // 新头节点
-        SinglyNode<T> newHead;
+        SinglyNode<T> newHead = null;
+        // 新当前节点
+        SinglyNode<T> newCurrent;
         while (current != null) {
             next = current.getNext();
-
+            newCurrent = new SinglyNode<>(current.getData());
+            newCurrent.setNext(newHead);
+            newHead = newCurrent;
             current = next;
         }
+        return newHead;
     }
 
     /**
      * 打印所有元素
      */
     public void printAll() {
-        SinglyNode<T> currentNode = head;
+        printAllElement(head);
+    }
+
+    /**
+     * 遍历指定头节点的链表，打印所有元素
+     * @param head
+     */
+    public static void printAllElement(SinglyNode<?> head) {
+        SinglyNode<?> currentNode = head;
         while (currentNode != null) {
             System.out.print(currentNode.getData() + ", ");
             currentNode = currentNode.getNext();
@@ -349,14 +362,9 @@ public class SinglyLinkedList<T> {
         list2.printAll();
 
         System.out.println("-------------- inverseLinkList -----------------");
-        SinglyNode<Integer> node5 = list2.findByValue(2000);
-        SinglyNode<Integer> integerSinglyNode = list2.inverseLinkList(node5);
-        SinglyNode<Integer> currentNode = integerSinglyNode;
-        while (currentNode != null) {
-            System.out.print(currentNode.getData() + ", ");
-            currentNode = currentNode.getNext();
-        }
-        System.out.println();
+        SinglyNode<Integer> newHead = list2.inverseLinkedList();
+        list2.printAll();
+        printAllElement(newHead);
         list2.printAll();
     }
 
