@@ -57,7 +57,7 @@ public class CircularLinkedList<T> {
                     return currentNode;
                 }
                 currentNode = currentNode.getNext();
-            } while (currentNode.getData() == data || (data != null && data.equals(currentNode.getData())));
+            } while (currentNode.getData() != head);
         }
         return null;
     }
@@ -181,6 +181,75 @@ public class CircularLinkedList<T> {
         last = newNode;
     }
 
+    /**
+     * 删除指定索引的节点
+     * @param index
+     */
+    public void deleteByIndex(int index) {
+        if (head == null) {
+            return;
+        }
+
+        NormalNode<T> current = head;
+        NormalNode<T> pre = null;
+        int i = 0;
+        do {
+            if (i == index) {
+                deleteNode(current, pre);
+                break;
+            }
+            pre = current;
+            current = current.getNext();
+            i++;
+        } while (current != head);
+    }
+
+    /**
+     * 根据指定的值删除节点
+     * @param value
+     */
+    public void deleteByValue(T value) {
+        if (head == null) {
+            return;
+        }
+
+        NormalNode<T> current = head;
+        NormalNode<T> pre = null;
+        do {
+            if (current.getData().equals(value)) {
+                deleteNode(current, pre);
+                break;
+            }
+            pre = current;
+            current = current.getNext();
+        } while (current != head);
+    }
+
+    /**
+     * 删除节点
+     * @param current
+     * @param pre
+     */
+    private void deleteNode(NormalNode<T> current, NormalNode<T> pre) {
+        if (pre == null) {
+            head = current.getNext();
+            current.setNext(null);
+            last.setNext(head);
+        } else {
+            pre.setNext(current.getNext());
+            current.setNext(null);
+        }
+    }
+
+    /**
+     * 反转链表，直接修改原链表
+     * @return
+     */
+    public NormalNode<T> inverse() {
+
+        return null;
+    }
+
     public void printAll() {
         NormalNode<T> current = head;
         if (current != null) {
@@ -214,6 +283,19 @@ public class CircularLinkedList<T> {
         System.out.println("--------------- insertAfter -----------------");
         NormalNode<Integer> node1 = list2.findByIndex(4);
         list2.insertAfter(node1, 6000);
+        list2.printAll();
+
+        System.out.println("--------------- insertBefore -----------------");
+        NormalNode<Integer> node2 = list2.findByValue(1000);
+        list2.insertBefore(node2, 9999);
+        list2.printAll();
+
+        System.out.println("--------------- deleteByIndex -----------------");
+        list2.deleteByIndex(0);
+        list2.printAll();
+
+        System.out.println("--------------- deleteByValue -----------------");
+        list2.deleteByValue(4000);
         list2.printAll();
     }
 
