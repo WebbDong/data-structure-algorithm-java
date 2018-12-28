@@ -1,6 +1,6 @@
 package com.datastructure.demo.algo.linkedlist;
 
-import com.datastructure.demo.algo.linkedlist.model.SinglyNode;
+import com.datastructure.demo.algo.linkedlist.model.NormalNode;
 
 /**
  * @Description:    单链表
@@ -16,21 +16,21 @@ public class SinglyLinkedList<T> {
     /**
      * 头节点
      */
-    private SinglyNode<T> head;
+    private NormalNode<T> head;
 
     /**
      * 尾结点
      */
-    private SinglyNode<T> last;
+    private NormalNode<T> last;
 
     /**
      * 根据索引查找
      * @param index
      * @return
      */
-    public SinglyNode<T> findByIndex(int index) {
+    public NormalNode<T> findByIndex(int index) {
         int i = 0;
-        SinglyNode<T> currentNode = head;
+        NormalNode<T> currentNode = head;
         while (currentNode != null) {
             if (index == i) {
                 return currentNode;
@@ -46,8 +46,8 @@ public class SinglyLinkedList<T> {
      * @param data
      * @return
      */
-    public SinglyNode<T> findByValue(T data) {
-        SinglyNode<T> currentNode = head;
+    public NormalNode<T> findByValue(T data) {
+        NormalNode<T> currentNode = head;
         while (currentNode != null) {
             if (currentNode.getData() == data
                     || (data != null && data.equals(currentNode.getData()))) {
@@ -63,7 +63,7 @@ public class SinglyLinkedList<T> {
      * @param data
      */
     public void insertToHead(T data) {
-        SinglyNode<T> newNode = new SinglyNode<>(data);
+        NormalNode<T> newNode = new NormalNode<>(data);
         insertToHead(newNode);
     }
 
@@ -71,7 +71,7 @@ public class SinglyLinkedList<T> {
      * 插入到头部
      * @param newNode
      */
-    public void insertToHead(SinglyNode<T> newNode) {
+    public void insertToHead(NormalNode<T> newNode) {
         if (head == null) {
             head = newNode;
             last = newNode;
@@ -86,7 +86,7 @@ public class SinglyLinkedList<T> {
      * @param data
      */
     public void insertToTail(T data) {
-        SinglyNode<T> newNode = new SinglyNode<>(data);
+        NormalNode<T> newNode = new NormalNode<>(data);
         insertToTail(newNode);
     }
 
@@ -94,7 +94,7 @@ public class SinglyLinkedList<T> {
      * 插入到尾部
      * @param newNode
      */
-    public void insertToTail(SinglyNode<T> newNode) {
+    public void insertToTail(NormalNode<T> newNode) {
         if (head == null) {
             head = newNode;
             last = newNode;
@@ -109,8 +109,8 @@ public class SinglyLinkedList<T> {
      * @param node
      * @param data
      */
-    public void insertBefore(SinglyNode<T> node, T data) {
-        SinglyNode<T> newNode = new SinglyNode<>(data);
+    public void insertBefore(NormalNode<T> node, T data) {
+        NormalNode<T> newNode = new NormalNode<>(data);
         insertBefore(node, newNode);
     }
 
@@ -119,13 +119,13 @@ public class SinglyLinkedList<T> {
      * @param node
      * @param newNode
      */
-    public void insertBefore(SinglyNode<T> node, SinglyNode<T> newNode) {
+    public void insertBefore(NormalNode<T> node, NormalNode<T> newNode) {
         if (node == null || newNode == null || head == null) {
             return;
         }
 
-        SinglyNode<T> currentNode = head;
-        SinglyNode<T> preNode = null;
+        NormalNode<T> currentNode = head;
+        NormalNode<T> preNode = null;
         while (currentNode != null && !node.getData().equals(currentNode.getData())) {
             preNode = currentNode;
             currentNode = currentNode.getNext();
@@ -149,8 +149,8 @@ public class SinglyLinkedList<T> {
      * @param node
      * @param data
      */
-    public void insertAfter(SinglyNode<T> node, T data) {
-        SinglyNode<T> newNode = new SinglyNode<>(data);
+    public void insertAfter(NormalNode<T> node, T data) {
+        NormalNode<T> newNode = new NormalNode<>(data);
         insertAfter(node, newNode);
     }
 
@@ -159,7 +159,7 @@ public class SinglyLinkedList<T> {
      * @param node
      * @param newNode
      */
-    public void insertAfter(SinglyNode<T> node, SinglyNode<T> newNode) {
+    public void insertAfter(NormalNode<T> node, NormalNode<T> newNode) {
         if (node == null || newNode == null) {
             return;
         }
@@ -176,8 +176,8 @@ public class SinglyLinkedList<T> {
             return;
         }
 
-        SinglyNode<T> currentNode = head;
-        SinglyNode<T> preNode = null;
+        NormalNode<T> currentNode = head;
+        NormalNode<T> preNode = null;
 
         for (int i = 0; currentNode != null && i != index; i++) {
             preNode = currentNode;
@@ -200,8 +200,8 @@ public class SinglyLinkedList<T> {
             return;
         }
 
-        SinglyNode<T> currentNode = head;
-        SinglyNode<T> preNode = null;
+        NormalNode<T> currentNode = head;
+        NormalNode<T> preNode = null;
         while (currentNode != null && !currentNode.getData().equals(value)) {
             preNode = currentNode;
             currentNode = currentNode.getNext();
@@ -218,7 +218,7 @@ public class SinglyLinkedList<T> {
      * 删除指定的节点
      * @param node
      */
-    public void deleteByNode(SinglyNode<T> node) {
+    public void deleteByNode(NormalNode<T> node) {
         if (head == null) {
             return;
         }
@@ -229,13 +229,13 @@ public class SinglyLinkedList<T> {
     /**
      * 反转链表，直接修改原链表
      */
-    public SinglyNode<T> inverse() {
+    public NormalNode<T> inverse() {
         // 遍历的当前节点
-        SinglyNode<T> current = head;
+        NormalNode<T> current = head;
         // 遍历的下一个节点
-        SinglyNode<T> next;
+        NormalNode<T> next;
         // 新头节点
-        SinglyNode<T> newHead = null;
+        NormalNode<T> newHead = null;
         while (current != null) {
             next = current.getNext();
             current.setNext(newHead);
@@ -250,18 +250,18 @@ public class SinglyLinkedList<T> {
      * 反转链表，返回反转后的新头节点，不修改原链表
      * @return
      */
-    public SinglyNode<T> inverseLinkedList() {
+    public NormalNode<T> inverseLinkedList() {
         // 遍历的当前节点
-        SinglyNode<T> current = head;
+        NormalNode<T> current = head;
         // 遍历的下一个节点
-        SinglyNode<T> next;
+        NormalNode<T> next;
         // 新头节点
-        SinglyNode<T> newHead = null;
+        NormalNode<T> newHead = null;
         // 新当前节点
-        SinglyNode<T> newCurrent;
+        NormalNode<T> newCurrent;
         while (current != null) {
             next = current.getNext();
-            newCurrent = new SinglyNode<>(current.getData());
+            newCurrent = new NormalNode<>(current.getData());
             newCurrent.setNext(newHead);
             newHead = newCurrent;
             current = next;
@@ -280,8 +280,8 @@ public class SinglyLinkedList<T> {
      * 遍历指定头节点的链表，打印所有元素
      * @param head
      */
-    public static void printAllElement(SinglyNode<?> head) {
-        SinglyNode<?> currentNode = head;
+    public static void printAllElement(NormalNode<?> head) {
+        NormalNode<?> currentNode = head;
         while (currentNode != null) {
             System.out.print(currentNode.getData() + ", ");
             currentNode = currentNode.getNext();
@@ -294,7 +294,7 @@ public class SinglyLinkedList<T> {
      * @param currentNode
      * @param preNode
      */
-    private void deleteNode(SinglyNode<T> currentNode, SinglyNode<T> preNode) {
+    private void deleteNode(NormalNode<T> currentNode, NormalNode<T> preNode) {
         if (preNode == null) {
             head = currentNode.getNext();
             currentNode.setNext(null);
@@ -323,10 +323,10 @@ public class SinglyLinkedList<T> {
         list2.printAll();
 
         System.out.println("-------------- find -----------------");
-        SinglyNode<Integer> node1 = list2.findByIndex(1);
+        NormalNode<Integer> node1 = list2.findByIndex(1);
         System.out.println("list2.findByIndex(1) = " + node1);
 
-        SinglyNode<Integer> node2 = list2.findByValue(900);
+        NormalNode<Integer> node2 = list2.findByValue(900);
         System.out.println("list2.findByValue(900) = " + node2);
 
         System.out.println("-------------- insertAfter -----------------");
@@ -334,12 +334,12 @@ public class SinglyLinkedList<T> {
         list3.insertToHead(2000);
         list3.insertToHead(3000);
         list3.insertToHead(4000);
-        SinglyNode<Integer> node3 = list3.findByIndex(0);
+        NormalNode<Integer> node3 = list3.findByIndex(0);
         list3.insertAfter(node3, 7000);
         list3.printAll();
 
         System.out.println("-------------- insertBefore -----------------");
-        SinglyNode<Integer> node4 =  list3.findByIndex(0);
+        NormalNode<Integer> node4 =  list3.findByIndex(0);
         list3.insertBefore(node4, 50000);
         list3.printAll();
 
@@ -352,7 +352,7 @@ public class SinglyLinkedList<T> {
         list3.printAll();
 
         System.out.println("-------------- deleteByNode -----------------");
-        SinglyNode<Integer> deleteNode = new SinglyNode<>(50000);
+        NormalNode<Integer> deleteNode = new NormalNode<>(50000);
         list3.deleteByNode(deleteNode);
         list3.printAll();
 
@@ -362,7 +362,7 @@ public class SinglyLinkedList<T> {
         list2.printAll();
 
         System.out.println("-------------- inverseLinkList -----------------");
-        SinglyNode<Integer> newHead = list2.inverseLinkedList();
+        NormalNode<Integer> newHead = list2.inverseLinkedList();
         list2.printAll();
         printAllElement(newHead);
         list2.printAll();

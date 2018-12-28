@@ -3,7 +3,7 @@ package com.datastructure.demo.algo.linkedlist.model;
 import lombok.Data;
 
 /**
- * @Description:    单链表节点
+ * @Description:    普通单向链表节点
  * @Author:         Webb Dong
  * @CreateDate:     2018/12/24 16:35
  * @UpdateUser:     Webb Dong
@@ -12,7 +12,7 @@ import lombok.Data;
  * @Version:        1.0.0
  */
 @Data
-public class SinglyNode<T> {
+public class NormalNode<T> {
 
     /**
      * 数据元素
@@ -22,9 +22,9 @@ public class SinglyNode<T> {
     /**
      * 下一个节点
      */
-    private SinglyNode<T> next;
+    private NormalNode<T> next;
 
-    public SinglyNode(T data) {
+    public NormalNode(T data) {
         this.data = data;
     }
 
