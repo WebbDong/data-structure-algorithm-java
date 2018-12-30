@@ -165,6 +165,9 @@ public class SinglyLinkedList<T> {
         }
         newNode.setNext(node.getNext());
         node.setNext(newNode);
+        if (node == last || node.getData().equals(last.getData())) {
+            last = newNode;
+        }
     }
 
     /**
@@ -242,6 +245,7 @@ public class SinglyLinkedList<T> {
             newHead = current;
             current = next;
         }
+        last = head;
         head = newHead;
         return newHead;
     }
@@ -274,6 +278,11 @@ public class SinglyLinkedList<T> {
      */
     public void printAll() {
         printAllElement(head);
+    }
+
+    public void printHeadAndLast() {
+        System.out.println("head.getData()=" + head.getData());
+        System.out.println("last.getData()=" + last.getData());
     }
 
     /**
@@ -337,11 +346,24 @@ public class SinglyLinkedList<T> {
         NormalNode<Integer> node3 = list3.findByIndex(0);
         list3.insertAfter(node3, 7000);
         list3.printAll();
+        list3.printHeadAndLast();
+        NormalNode<Integer> node10 = list3.findByValue(2000);
+        list3.insertAfter(node10, 5678);
+        list3.printAll();
+        list3.printHeadAndLast();
 
         System.out.println("-------------- insertBefore -----------------");
-        NormalNode<Integer> node4 =  list3.findByIndex(0);
+        NormalNode<Integer> node4 =  list3.findByIndex(1);
         list3.insertBefore(node4, 50000);
         list3.printAll();
+        NormalNode<Integer> node11 = list3.findByIndex(0);
+        list3.insertBefore(node11, 60000);
+        list3.printAll();
+        list3.printHeadAndLast();
+        NormalNode<Integer> node12 = list3.findByValue(5678);
+        list3.insertBefore(node12, 70000);
+        list3.printAll();
+        list3.printHeadAndLast();
 
         System.out.println("-------------- deleteByIndex -----------------");
         list3.deleteByIndex(1);
@@ -358,8 +380,10 @@ public class SinglyLinkedList<T> {
 
         System.out.println("-------------- inverse -----------------");
         list2.printAll();
+        list2.printHeadAndLast();
         list2.inverse();
         list2.printAll();
+        list2.printHeadAndLast();
 
         System.out.println("-------------- inverseLinkList -----------------");
         NormalNode<Integer> newHead = list2.inverseLinkedList();

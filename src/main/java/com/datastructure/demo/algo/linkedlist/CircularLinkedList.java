@@ -134,17 +134,32 @@ public class CircularLinkedList<T> {
 
         NormalNode<T> current = head;
         NormalNode<T> pre = null;
-        do {
+        boolean isFinded = false;
+
+        while (true) {
+            if (current == node || current.getData().equals(node.getData())) {
+                isFinded = true;
+                break;
+            }
             pre = current;
             current = current.getNext();
-        } while (current != head && current != node && !current.getData().equals(node.getData()));
+            if (current == head) {
+                break;
+            }
+        }
 
-        if (current == head) {
+        if (!isFinded) {
             return;
         }
 
-        pre.setNext(newNode);
-        newNode.setNext(current);
+        if (pre == null) {
+            newNode.setNext(head);
+            head = newNode;
+            last.setNext(newNode);
+        } else {
+            newNode.setNext(current);
+            pre.setNext(newNode);
+        }
     }
 
     /**
@@ -178,7 +193,9 @@ public class CircularLinkedList<T> {
 
         newNode.setNext(current.getNext());
         current.setNext(newNode);
-        last = newNode;
+        if (current == last || current.getData().equals(last.getData())) {
+            last = newNode;
+        }
     }
 
     /**
@@ -246,19 +263,76 @@ public class CircularLinkedList<T> {
      * @return
      */
     public NormalNode<T> inverse() {
+        if (head == null) {
+            return null;
+        }
 
-        return null;
+        NormalNode<T> current = head;
+        NormalNode<T> next;
+        NormalNode<T> newHead = last;
+        do {
+            next = current.getNext();
+            current.setNext(newHead);
+            newHead = current;
+            current = next;
+        } while (current != head);
+        last = head;
+        head = newHead;
+        return newHead;
+    }
+
+    /**
+     * 反转链表，返回反转后的新头节点，不修改原链表
+     * @return
+     */
+    public NormalNode<T> inverseLinkedList() {
+        if (head == null) {
+            return null;
+        }
+
+        NormalNode<T> current = head;
+        NormalNode<T> next;
+        NormalNode<T> newHead = null;
+        NormalNode<T> newCurrent;
+        NormalNode<T> newLast = null;
+        do {
+            next = current.getNext();
+            newCurrent = new NormalNode<>(current.getData());
+            if (newLast == null) {
+                newLast = newCurrent;
+            }
+            newCurrent.setNext(newHead);
+            newHead = newCurrent;
+            current = next;
+        } while (current != head);
+        newLast.setNext(newHead);
+        return newHead;
     }
 
     public void printAll() {
-        NormalNode<T> current = head;
-        if (current != null) {
-            do {
-                System.out.print(current.getData() + ", ");
-                current = current.getNext();
-            } while (current != head);
+        printAllElement(head);
+    }
+
+    /**
+     * 遍历指定头节点的链表，打印所有元素
+     * @param head
+     */
+    public static void printAllElement(NormalNode<?> head) {
+        if (head == null) {
+            return;
         }
+
+        NormalNode<?> current = head;
+        do {
+            System.out.print(current.getData() + ", ");
+            current = current.getNext();
+        } while (current != head);
         System.out.println();
+    }
+
+    public void printHeadAndLast() {
+        System.out.println("head.getData()=" + head.getData());
+        System.out.println("last.getData()=" + last.getData());
     }
 
     public static void main(String[] args) {
@@ -284,10 +358,24 @@ public class CircularLinkedList<T> {
         NormalNode<Integer> node1 = list2.findByIndex(4);
         list2.insertAfter(node1, 6000);
         list2.printAll();
+        NormalNode<Integer> node5 = list2.findByIndex(0);
+        list2.insertAfter(node5, 6666);
+        list2.printAll();
+        list2.printHeadAndLast();
+        NormalNode<Integer> node6 = list2.findByValue(6000);
+        list2.insertAfter(node6, 4444);
+        list2.printAll();
+        list2.printHeadAndLast();
 
         System.out.println("--------------- insertBefore -----------------");
-        NormalNode<Integer> node2 = list2.findByValue(1000);
+        NormalNode<Integer> node2 = list2.findByIndex(0);
         list2.insertBefore(node2, 9999);
+        list2.printAll();
+        NormalNode<Integer> node3 = list2.findByValue(4444);
+        list2.insertBefore(node3, 8888);
+        list2.printAll();
+        NormalNode<Integer> node4 = list2.findByValue(8888);
+        list2.insertBefore(node4, 7777);
         list2.printAll();
 
         System.out.println("--------------- deleteByIndex -----------------");
@@ -296,6 +384,19 @@ public class CircularLinkedList<T> {
 
         System.out.println("--------------- deleteByValue -----------------");
         list2.deleteByValue(4000);
+        list2.printAll();
+
+        System.out.println("--------------- inverse -----------------");
+        list2.printAll();
+        list2.printHeadAndLast();
+        list2.inverse();
+        list2.printAll();
+        list2.printHeadAndLast();
+
+        System.out.println("--------------- inverseLinkedList -----------------");
+        list2.printAll();
+        NormalNode<Integer> head = list2.inverseLinkedList();
+        printAllElement(head);
         list2.printAll();
     }
 
