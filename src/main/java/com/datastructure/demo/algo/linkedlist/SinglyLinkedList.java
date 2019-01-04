@@ -1,6 +1,7 @@
 package com.datastructure.demo.algo.linkedlist;
 
 import com.datastructure.demo.algo.linkedlist.model.NormalNode;
+import lombok.Data;
 
 /**
  * @Description:    单链表
@@ -11,6 +12,7 @@ import com.datastructure.demo.algo.linkedlist.model.NormalNode;
  * @UpdateRemark:
  * @Version:        1.0.0
  */
+@Data
 public class SinglyLinkedList<T> {
 
     /**
@@ -22,6 +24,11 @@ public class SinglyLinkedList<T> {
      * 尾结点
      */
     private NormalNode<T> last;
+
+    /**
+     * 元素个数
+     */
+    private int size;
 
     /**
      * 根据索引查找
@@ -79,6 +86,7 @@ public class SinglyLinkedList<T> {
             newNode.setNext(head);
             head = newNode;
         }
+        size++;
     }
 
     /**
@@ -102,6 +110,7 @@ public class SinglyLinkedList<T> {
             last.setNext(newNode);
             last = newNode;
         }
+        size++;
     }
 
     /**
@@ -142,6 +151,7 @@ public class SinglyLinkedList<T> {
             newNode.setNext(preNode.getNext());
             preNode.setNext(newNode);
         }
+        size++;
     }
 
     /**
@@ -168,6 +178,7 @@ public class SinglyLinkedList<T> {
         if (node == last || node.getData().equals(last.getData())) {
             last = newNode;
         }
+        size++;
     }
 
     /**
@@ -274,6 +285,29 @@ public class SinglyLinkedList<T> {
     }
 
     /**
+     * 是否为回文
+     * @return
+     */
+    public boolean isPalindrome() {
+        if (head == null) {
+            return false;
+        }
+        NormalNode<T> leftHead = head;
+        NormalNode<T> rightHead = inverseLinkedList();
+        int halfSize = size / 2;
+        int i = 0;
+        while (leftHead != null && rightHead != null && i < halfSize) {
+            if (!leftHead.getData().equals(rightHead.getData())) {
+                return false;
+            }
+            leftHead = leftHead.getNext();
+            rightHead = rightHead.getNext();
+            i++;
+        }
+        return true;
+    }
+
+    /**
      * 打印所有元素
      */
     public void printAll() {
@@ -311,6 +345,7 @@ public class SinglyLinkedList<T> {
             preNode.setNext(currentNode.getNext());
             currentNode.setNext(null);
         }
+        size--;
     }
 
     public static void main(String[] args) {
@@ -390,6 +425,27 @@ public class SinglyLinkedList<T> {
         list2.printAll();
         printAllElement(newHead);
         list2.printAll();
+
+        System.out.println("-------------- 回文 -----------------");
+//        String str = "madam";
+//        System.out.println(isPalindrome(str));
+        SinglyLinkedList<Character> list4 = new SinglyLinkedList<>();
+        list4.insertToHead('m');
+        list4.insertToHead('a');
+        list4.insertToHead('d');
+        list4.insertToHead('a');
+        list4.insertToHead('m');
+        System.out.println(list4.isPalindrome());
+
+        System.out.println("size=" + list4.getSize());
+    }
+
+    public static boolean isPalindrome(String str) {
+        char[] chars = str.toCharArray();
+        int i = 0;
+        for (int j = chars.length - 1; i < j && chars[i] == chars[j]; i++, j--)
+            ;
+        return i == (chars.length / 2);
     }
 
 }
