@@ -141,17 +141,30 @@ public class CircularDuLinkedList<T> {
         }
 
         DuLinkedNode<T> current = head;
-        DuLinkedNode<T> pre;
-        do {
-            pre = current;
+        boolean isFinded = false;
+        while (true) {
+            if (current == node || current.getData().equals(node.getData())) {
+                isFinded = true;
+                break;
+            }
             current = current.getNext();
-        } while (current != head && current != node && !current.getData().equals(node.getData()));
+            if (current == head) {
+                break;
+            }
+        }
 
-        if (current == head) {
+        if (!isFinded) {
             return;
         }
 
-
+        newNode.setPrevious(current.getPrevious());
+        newNode.setNext(current);
+        current.getPrevious().setNext(newNode);
+        current.setPrevious(newNode);
+        if (current == head) {
+            head = newNode;
+            last.setNext(head);
+        }
     }
 
     /**
@@ -175,7 +188,30 @@ public class CircularDuLinkedList<T> {
         }
 
         DuLinkedNode<T> current = head;
+        boolean isFinded = false;
+        while (true) {
+            if (current == node || current.getData().equals(node.getData())) {
+                isFinded = true;
+                break;
+            }
+            current = current.getNext();
+            if (current == head) {
+                break;
+            }
+        }
 
+        if (!isFinded) {
+            return;
+        }
+
+        newNode.setNext(current.getNext());
+        newNode.setPrevious(current);
+        current.getNext().setPrevious(newNode);
+        current.setNext(newNode);
+        if (current == last) {
+            last = newNode;
+            head.setPrevious(last);
+        }
     }
 
     /**
@@ -208,6 +244,25 @@ public class CircularDuLinkedList<T> {
             }
             current = current.getNext();
         } while (current != head);
+    }
+
+    /**
+     * 反转链表，直接修改原链表
+     * @return
+     */
+    public DuLinkedNode<T> inverse() {
+        if (head == null) {
+            return null;
+        }
+
+        DuLinkedNode<T> current = head;
+        DuLinkedNode<T> next = null;
+        while (next != head) {
+            current = current.getNext();
+            next = current.getNext();
+        }
+
+        return null;
     }
 
     public void printAllStartHead() {
@@ -311,6 +366,24 @@ public class CircularDuLinkedList<T> {
 
         System.out.println("------------------ deleteByValue -------------------");
         list1.deleteByValue(400000);
+        list1.printAllStartHead();
+        list1.printAllStartLast();
+
+        System.out.println("------------------ insertBefore -------------------");
+        DuLinkedNode<Integer> node3 = list1.findByIndex(0);
+        list1.insertBefore(node3, 700000);
+        DuLinkedNode<Integer> node4 = list1.findByValue(300000);
+        list1.insertBefore(node4, 800000);
+        list1.printAllStartHead();
+        list1.printAllStartLast();
+
+        System.out.println("------------------ insertAfter -------------------");
+        DuLinkedNode<Integer> node5 = list1.findByIndex(0);
+        list1.insertAfter(node5, 900000);
+        list1.printAllStartHead();
+        list1.printAllStartLast();
+        DuLinkedNode<Integer> node6 = list1.findByValue(200000);
+        list1.insertAfter(node6, 999999);
         list1.printAllStartHead();
         list1.printAllStartLast();
     }
