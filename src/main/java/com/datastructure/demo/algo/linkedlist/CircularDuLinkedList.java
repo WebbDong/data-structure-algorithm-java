@@ -251,18 +251,23 @@ public class CircularDuLinkedList<T> {
      * @return
      */
     public DuLinkedNode<T> inverse() {
-        if (head == null) {
-            return null;
-        }
-
         DuLinkedNode<T> current = head;
-        DuLinkedNode<T> next = null;
-        while (next != head) {
-            current = current.getNext();
+        DuLinkedNode<T> temp;
+        DuLinkedNode<T> next;
+        while (true) {
             next = current.getNext();
+            temp = current.getPrevious();
+            current.setPrevious(next);
+            current.setNext(temp);
+            current = next;
+            if (current == head) {
+                break;
+            }
         }
-
-        return null;
+        temp = head;
+        head = last;
+        last = temp;
+        return head;
     }
 
     public void printAllStartHead() {
@@ -384,6 +389,11 @@ public class CircularDuLinkedList<T> {
         list1.printAllStartLast();
         DuLinkedNode<Integer> node6 = list1.findByValue(200000);
         list1.insertAfter(node6, 999999);
+        list1.printAllStartHead();
+        list1.printAllStartLast();
+
+        System.out.println("------------------ inverse -------------------");
+        list1.inverse();
         list1.printAllStartHead();
         list1.printAllStartLast();
     }
