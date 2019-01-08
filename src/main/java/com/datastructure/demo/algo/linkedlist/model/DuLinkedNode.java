@@ -29,6 +29,9 @@ public class DuLinkedNode<T> {
      */
     private DuLinkedNode<T> next;
 
+    public DuLinkedNode() {
+    }
+
     public DuLinkedNode(T data) {
         this.data = data;
     }

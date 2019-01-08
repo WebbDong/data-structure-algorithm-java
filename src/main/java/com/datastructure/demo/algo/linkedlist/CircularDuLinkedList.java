@@ -312,23 +312,27 @@ public class CircularDuLinkedList<T> {
 
     /**
      * 删除节点
-     * @param current
+     * @param node
      */
-    private void deleteNode(DuLinkedNode<T> current) {
-        if (current == head) {
-            head = current.getNext();
+    private void deleteNode(DuLinkedNode<T> node) {
+        if (node == null) {
+            return;
+        }
+
+        if (node == head) {
+            head = node.getNext();
             head.setPrevious(last);
             last.setNext(head);
-        } else if (current == last) {
-            last = current.getPrevious();
+        } else if (node == last) {
+            last = node.getPrevious();
             head.setPrevious(last);
             last.setNext(head);
         } else {
-            current.getPrevious().setNext(current.getNext());
-            current.getNext().setPrevious(current.getPrevious());
+            node.getPrevious().setNext(node.getNext());
+            node.getNext().setPrevious(node.getPrevious());
         }
-        current.setNext(null);
-        current.setPrevious(null);
+        node.setNext(null);
+        node.setPrevious(null);
     }
 
     public static void main(String[] args) {
