@@ -215,13 +215,17 @@ public class HeadCircularDuLinkedList<T> {
         DuLinkedNode<T> current = head.getNext();
         DuLinkedNode<T> next;
         DuLinkedNode<T> temp;
-        while (current != null) {
+        while (current != head) {
             next = current.getNext();
             temp = current.getPrevious();
             current.setPrevious(next);
             current.setNext(temp);
+            current = next;
         }
-        return null;
+        temp = head;
+        head = last;
+        last = temp;
+        return head;
     }
 
     public void printAllStartHead() {
