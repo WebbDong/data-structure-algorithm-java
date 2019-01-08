@@ -222,8 +222,8 @@ public class HeadCircularDuLinkedList<T> {
             current.setNext(temp);
             current = next;
         }
-        temp = head;
-        head = last;
+        temp = head.getNext();
+        head.setNext(last);
         last = temp;
         return head;
     }
