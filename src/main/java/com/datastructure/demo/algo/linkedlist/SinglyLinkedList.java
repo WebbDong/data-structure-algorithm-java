@@ -318,7 +318,8 @@ public class SinglyLinkedList<T> {
         if (head == null) {
             return false;
         }
-        return checkCircleUseSet(head);
+//        return checkCircleUseSet(head);
+        return checkCircleFastSlow(head);
     }
 
     /**
@@ -327,13 +328,13 @@ public class SinglyLinkedList<T> {
      * @return
      */
     private boolean checkCircleUseSet(NormalNode<T> head) {
-        Set<T> sets = new HashSet<>();
+        Set<NormalNode<T>> sets = new HashSet<>();
         NormalNode<T> current = head;
         while (current != null) {
-            if (sets.contains(current.getData())) {
+            if (sets.contains(current)) {
                 return true;
             }
-            sets.add(current.getData());
+            sets.add(current);
             current = current.getNext();
         }
         return false;
@@ -347,7 +348,14 @@ public class SinglyLinkedList<T> {
     private boolean checkCircleFastSlow(NormalNode<T> head) {
         NormalNode<T> fast = head;
         NormalNode<T> slow = head;
-
+        while (slow != null && fast != null && fast.getNext() != null) {
+            slow = slow.getNext();
+            fast = fast.getNext().getNext();
+            if (fast == slow) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -408,11 +416,16 @@ public class SinglyLinkedList<T> {
         list2.insertToTail(700);
         list2.insertToTail(800);
         list2.insertToTail(900);
-        list2.insertToTail(2000);
+        NormalNode<Integer> nNode = new NormalNode<>(2000);
+        list2.insertToTail(nNode);
         list2.insertToTail(4000);
         list2.insertToTail(6000);
-        list2.printAll();
+        list2.insertToTail(nNode);
+//        list2.printAll();
 
+        System.out.println("-------------- checkCircleUseSet -----------------");
+        System.out.println("checkCircleUseSet=" + list2.checkCircle());
+/*
         System.out.println("-------------- find -----------------");
         NormalNode<Integer> node1 = list2.findByIndex(1);
         System.out.println("list2.findByIndex(1) = " + node1);
@@ -484,10 +497,7 @@ public class SinglyLinkedList<T> {
         list4.insertToHead('m');
         System.out.println(list4.isPalindrome());
 
-        System.out.println("size=" + list4.getSize());
-
-        System.out.println("-------------- checkCircleUseSet -----------------");
-        System.out.println("checkCircleUseSet=" + list1.checkCircle());
+        System.out.println("size=" + list4.getSize()); */
     }
 
     public static boolean isPalindrome(String str) {

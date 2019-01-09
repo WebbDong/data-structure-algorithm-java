@@ -1,7 +1,5 @@
 package com.datastructure.demo.algo.linkedlist.model;
 
-import lombok.Data;
-
 /**
  * @Description:    双向链表节点
  * @Author:         Webb Dong
@@ -11,7 +9,6 @@ import lombok.Data;
  * @UpdateRemark:
  * @Version:        1.0.0
  */
-@Data
 public class DuLinkedNode<T> {
 
     /**
@@ -39,6 +36,30 @@ public class DuLinkedNode<T> {
     @Override
     public String toString() {
         return "data=" + data;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public DuLinkedNode<T> getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(DuLinkedNode<T> previous) {
+        this.previous = previous;
+    }
+
+    public DuLinkedNode<T> getNext() {
+        return next;
+    }
+
+    public void setNext(DuLinkedNode<T> next) {
+        this.next = next;
     }
 
 }

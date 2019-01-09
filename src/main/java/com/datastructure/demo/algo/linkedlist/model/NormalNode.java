@@ -1,7 +1,5 @@
 package com.datastructure.demo.algo.linkedlist.model;
 
-import lombok.Data;
-
 /**
  * @Description:    普通单向链表节点
  * @Author:         Webb Dong
@@ -11,7 +9,6 @@ import lombok.Data;
  * @UpdateRemark:
  * @Version:        1.0.0
  */
-@Data
 public class NormalNode<T> {
 
     /**
@@ -26,6 +23,27 @@ public class NormalNode<T> {
 
     public NormalNode(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "data=" + data;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public NormalNode<T> getNext() {
+        return next;
+    }
+
+    public void setNext(NormalNode<T> next) {
+        this.next = next;
     }
 
 }
