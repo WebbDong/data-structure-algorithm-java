@@ -3,6 +3,9 @@ package com.datastructure.demo.algo.linkedlist;
 import com.datastructure.demo.algo.linkedlist.model.NormalNode;
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @Description:    单链表
  * @Author:         Webb Dong
@@ -308,6 +311,46 @@ public class SinglyLinkedList<T> {
     }
 
     /**
+     * 检测是否有环
+     * @return
+     */
+    public boolean checkCircle() {
+        if (head == null) {
+            return false;
+        }
+        return checkCircleUseSet(head);
+    }
+
+    /**
+     * 检测是否有环，使用Set
+     * @param head
+     * @return
+     */
+    private boolean checkCircleUseSet(NormalNode<T> head) {
+        Set<T> sets = new HashSet<>();
+        NormalNode<T> current = head;
+        while (current != null) {
+            if (sets.contains(current.getData())) {
+                return true;
+            }
+            sets.add(current.getData());
+            current = current.getNext();
+        }
+        return false;
+    }
+
+    /**
+     * 检测是否有环，快慢指针
+     * @param head
+     * @return
+     */
+    private boolean checkCircleFastSlow(NormalNode<T> head) {
+        NormalNode<T> fast = head;
+        NormalNode<T> slow = head;
+
+    }
+
+    /**
      * 打印所有元素
      */
     public void printAll() {
@@ -354,6 +397,10 @@ public class SinglyLinkedList<T> {
         list1.insertToHead(100);
         list1.insertToHead(200);
         list1.insertToHead(300);
+        list1.insertToHead(400);
+        list1.insertToHead(500);
+        list1.insertToHead(600);
+        list1.insertToHead(200);
         list1.printAll();
 
         System.out.println("-------------- insertToTail -----------------");
@@ -438,6 +485,9 @@ public class SinglyLinkedList<T> {
         System.out.println(list4.isPalindrome());
 
         System.out.println("size=" + list4.getSize());
+
+        System.out.println("-------------- checkCircleUseSet -----------------");
+        System.out.println("checkCircleUseSet=" + list1.checkCircle());
     }
 
     public static boolean isPalindrome(String str) {
