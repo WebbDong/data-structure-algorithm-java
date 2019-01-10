@@ -9,7 +9,7 @@ package com.datastructure.demo.algo.linkedlist.model;
  * @UpdateRemark:
  * @Version:        1.0.0
  */
-public class NormalNode<T> {
+public class NormalNode<T extends Comparable<T>> {
 
     /**
      * 数据元素
@@ -20,6 +20,9 @@ public class NormalNode<T> {
      * 下一个节点
      */
     private NormalNode<T> next;
+
+    public NormalNode() {
+    }
 
     public NormalNode(T data) {
         this.data = data;

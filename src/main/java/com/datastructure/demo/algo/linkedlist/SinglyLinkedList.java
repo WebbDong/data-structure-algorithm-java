@@ -16,7 +16,7 @@ import java.util.Set;
  * @Version:        1.0.0
  */
 @Data
-public class SinglyLinkedList<T> {
+public class SinglyLinkedList<T extends Comparable<T>> {
 
     /**
      * 头节点
@@ -359,6 +359,49 @@ public class SinglyLinkedList<T> {
     }
 
     /**
+     * 有序链表合并
+     * @param lista
+     * @param listb
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<E>> NormalNode<E> mergeSortedLists(SinglyLinkedList<E> lista, SinglyLinkedList<E> listb) {
+        NormalNode<E> currenta = lista.findByIndex(0);
+        NormalNode<E> currentb = listb.findByIndex(0);
+        NormalNode<E> newHead = null;
+        NormalNode<E> newCurrent = null;
+        NormalNode<E> temp;
+        while (currenta != null || currentb != null) {
+            if (currenta == null) {
+                temp = currentb;
+                currentb = currentb.getNext();
+            } else if (currentb == null) {
+                temp = currenta;
+                currenta = currenta.getNext();
+            } else {
+                int compareTo = currenta.getData().compareTo(currentb.getData());
+                if (compareTo > 0) {
+                    temp = currentb;
+                    currentb = currentb.getNext();
+                } else {
+                    temp = currenta;
+                    currenta = currenta.getNext();
+                }
+            }
+
+            NormalNode<E> newNode = new NormalNode<>(temp.getData());
+            if (newHead == null) {
+                newHead = newNode;
+                newCurrent = newNode;
+            } else {
+                newCurrent.setNext(newNode);
+                newCurrent = newNode;
+            }
+        }
+        return newHead;
+    }
+
+    /**
      * 打印所有元素
      */
     public void printAll() {
@@ -498,6 +541,21 @@ public class SinglyLinkedList<T> {
         System.out.println(list4.isPalindrome());
 
         System.out.println("size=" + list4.getSize()); */
+
+        SinglyLinkedList<Integer> list5 = new SinglyLinkedList<>();
+        list5.insertToTail(1);
+        list5.insertToTail(2);
+        list5.insertToTail(3);
+        list5.insertToTail(4);
+
+        SinglyLinkedList<Integer> list6 = new SinglyLinkedList<>();
+        list6.insertToTail(5);
+        list6.insertToTail(6);
+        list6.insertToTail(7);
+        list6.insertToTail(8);
+
+        NormalNode<Integer> newHead = mergeSortedLists(list5, list6);
+        printAllElement(newHead);
     }
 
     public static boolean isPalindrome(String str) {

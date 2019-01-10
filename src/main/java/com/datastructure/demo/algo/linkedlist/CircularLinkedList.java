@@ -11,7 +11,7 @@ import com.datastructure.demo.algo.linkedlist.model.NormalNode;
  * @UpdateRemark:
  * @Version: 1.0.0
  */
-public class CircularLinkedList<T> {
+public class CircularLinkedList<T extends Comparable<T>> {
 
     /**
      * 头节点
