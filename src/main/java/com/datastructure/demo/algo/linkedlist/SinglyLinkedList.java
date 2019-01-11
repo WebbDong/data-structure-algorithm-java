@@ -402,6 +402,59 @@ public class SinglyLinkedList<T extends Comparable<T>> {
     }
 
     /**
+     * 删除倒数第k个节点
+     * @param list
+     * @param k
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<E>> NormalNode<E> deleteLastKth(NormalNode<E> list, int k) {
+        NormalNode<E> fast = list;
+        for (int i = 1; fast != null && i < k; i++) {
+            fast = fast.getNext();
+        }
+
+        if (fast == null) {
+            return list;
+        }
+
+        NormalNode<E> slow = list;
+        NormalNode<E> prev = null;
+        while (fast.getNext() != null) {
+            fast = fast.getNext();
+            prev = slow;
+            slow = slow.getNext();
+        }
+
+        if (prev == null) {
+            NormalNode<E> temp = list.getNext();
+            list.setNext(null);
+            list = temp;
+        } else {
+            prev.setNext(slow.getNext());
+            slow.setNext(null);
+        }
+
+        return list;
+    }
+
+    /**
+     * 求中间结点
+     * @param list
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<E>> NormalNode<E> middleNode(NormalNode<E> list) {
+        NormalNode<E> slow = list;
+        NormalNode<E> fast = list;
+        while (fast != null && fast.getNext() != null) {
+            slow = slow.getNext();
+            fast = fast.getNext().getNext();
+        }
+        return slow;
+    }
+
+    /**
      * 打印所有元素
      */
     public void printAll() {
@@ -556,6 +609,13 @@ public class SinglyLinkedList<T extends Comparable<T>> {
 
         NormalNode<Integer> newHead = mergeSortedLists(list5, list6);
         printAllElement(newHead);
+
+        System.out.println("-------------- deleteLastKth -----------------");
+//        newHead = deleteLastKth(newHead, 8);
+//        printAllElement(newHead);
+
+        System.out.println("-------------- middleNode -----------------");
+        System.out.println(middleNode(newHead));
     }
 
     public static boolean isPalindrome(String str) {
