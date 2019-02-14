@@ -21,7 +21,7 @@ public class LRUBaseLinkedList<T extends Comparable<T>> {
     /**
      * 默认链表容量
      */
-    private final static int DEFAULT_CAPACITY = 10;
+    private final static int DEFAULT_CAPACITY = 5;
 
     /**
      * 链表长度
@@ -51,6 +51,7 @@ public class LRUBaseLinkedList<T extends Comparable<T>> {
     public void add(T data) {
         if (head == null) {
             head = new NormalNode<>(data);
+            size = 1;
         } else {
             NormalNode<T> preNode = findPreNode(data);
             if (preNode != null) {
@@ -66,50 +67,6 @@ public class LRUBaseLinkedList<T extends Comparable<T>> {
                 insertNodeAtHead(data);
             }
         }
-    }
-
-    /**
-     * 删除尾节点
-     */
-    private void deleteEndNode() {
-        NormalNode<T> currentNode = head;
-        NormalNode<T> preNode = head;
-        if (currentNode != null) {
-            while (true) {
-                currentNode = currentNode.getNext();
-                if (currentNode == null) {
-                    break;
-                }
-                preNode = currentNode;
-            }
-
-            preNode.setNext(null);
-            size--;
-        }
-    }
-
-    /**
-     * 插入节点到头部
-     * @param data
-     */
-    private void insertNodeAtHead(T data) {
-        NormalNode<T> newNode = new NormalNode<>(data);
-        newNode.setData(data);
-        newNode.setNext(head.getNext());
-        head = newNode;
-        size++;
-    }
-
-    /**
-     * 删除下一个节点
-     * @param preNode
-     */
-    private void deleteNextNode(NormalNode<T> preNode) {
-        NormalNode<T> temp = preNode.getNext();
-        preNode.setNext(temp.getNext());
-        temp.setNext(null);
-        temp = null;
-        size--;
     }
 
     /**
@@ -133,6 +90,78 @@ public class LRUBaseLinkedList<T extends Comparable<T>> {
             }
         }
         return null;
+    }
+
+    /**
+     * 删除尾节点
+     */
+    private void deleteEndNode() {
+        NormalNode<T> currentNode = head;
+        NormalNode<T> preNode = head;
+        if (currentNode != null) {
+            while (true) {
+                currentNode = currentNode.getNext();
+                if (currentNode.getNext() == null) {
+                    break;
+                }
+                preNode = currentNode;
+            }
+
+            preNode.setNext(null);
+            size--;
+        }
+    }
+
+    /**
+     * 插入节点到头部
+     * @param data
+     */
+    private void insertNodeAtHead(T data) {
+        NormalNode<T> newNode = new NormalNode<>(data);
+        newNode.setData(data);
+        newNode.setNext(head);
+        head = newNode;
+        size++;
+    }
+
+    /**
+     * 删除下一个节点
+     * @param preNode
+     */
+    private void deleteNextNode(NormalNode<T> preNode) {
+        NormalNode<T> temp = preNode.getNext();
+        preNode.setNext(temp.getNext());
+        temp.setNext(null);
+        temp = null;
+        size--;
+    }
+
+    private void printAll() {
+        NormalNode<T> currentNode = head;
+        while (currentNode != null) {
+            System.out.print(currentNode.getData() + ", ");
+            currentNode = currentNode.getNext();
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        LRUBaseLinkedList list = new LRUBaseLinkedList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        list.add(40);
+        list.add(50);
+        list.add(10);
+        list.printAll();
+        list.add(100);
+        list.printAll();
+        list.add(200);
+        list.printAll();
+        list.add(40);
+        list.printAll();
+        list.add(10);
+        list.printAll();
     }
 
 }
