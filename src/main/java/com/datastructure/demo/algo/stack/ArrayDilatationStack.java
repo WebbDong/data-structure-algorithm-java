@@ -73,6 +73,20 @@ public class ArrayDilatationStack<T> {
         return this.elements[count - 1];
     }
 
+    public void clear() {
+        for (int i = 0; i < count; i++) {
+            this.elements[i] = null;
+        }
+        count = 0;
+    }
+
+    public void printAllElement() {
+        for (int i = 0; i < elements.length; i++) {
+            System.out.print(elements[i] + ", ");
+        }
+        System.out.println();
+    }
+
     /**
      * 扩容
      */
@@ -105,6 +119,16 @@ public class ArrayDilatationStack<T> {
 
         System.out.println("stack.getCount()=" + stack.getCount());
 
+        for (int i = 0, count = stack.getCount(); i < count; i++) {
+            System.out.println(stack.pop());
+        }
+
+        System.out.println();
+        for (int i = 0; i < 30; i++) {
+            stack.push(i);
+        }
+
+        System.out.println("stack.getCount()=" + stack.getCount());
         for (int i = 0, count = stack.getCount(); i < count; i++) {
             System.out.println(stack.pop());
         }

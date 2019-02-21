@@ -15,7 +15,7 @@ package com.datastructure.demo.algo.stack;
  * @UpdateRemark:
  * @Version: 1.0.0
  */
-public class ArithmeticStack {
+public class ArithmeticCalc {
 
     /**
      * 操作数栈
@@ -27,7 +27,7 @@ public class ArithmeticStack {
      */
     private ArrayDilatationStack<Character> operatorStack;
 
-    public ArithmeticStack() {
+    public ArithmeticCalc() {
         operandStack = new ArrayDilatationStack<>(5);
         operatorStack = new ArrayDilatationStack<>(4);
     }
@@ -41,6 +41,8 @@ public class ArithmeticStack {
         if (value == null || value.length() == 0) {
             return 0;
         }
+        operandStack.clear();
+        operatorStack.clear();
         analyze(value);
         return calcTotalRes();
     }
@@ -53,22 +55,39 @@ public class ArithmeticStack {
     private void analyze(String value) {
         char[] chars = value.toCharArray();
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < chars.length; i++) {
+        for (int i = 0, length = chars.length; i < length; i++) {
             char c = chars[i];
             if (isOperator(c)) {
                 operandStack.push(Double.valueOf(sb.toString()));
                 Character o = operatorStack.peek();
                 if (o == null || isHighPriority(c, o)) {
-                    // 当前的运算符优先级比栈顶运算符高，直接压入运算符栈
                     operatorStack.push(c);
                 } else {
-                    operandStack.push(calcTotalRes());
+                    while (o != null && !isHighPriority(c, o)) {
+                        Double num2 = operandStack.pop();
+                        Double num1 = operandStack.pop();
+                        o = operatorStack.pop();
+                        operandStack.push(calc(num1, num2, o));
+                        o = operatorStack.peek();
+                    }
                     operatorStack.push(c);
                 }
                 sb.delete(0, sb.length());
             } else {
                 sb.append(c);
             }
+
+            if (i == length - 1) {
+                operandStack.push(Double.valueOf(sb.toString()));
+            }
+        }
+
+        Character o = operatorStack.peek();
+        if (isHighPriority(o)) {
+            Double num2 = operandStack.pop();
+            Double num1 = operandStack.pop();
+            o = operatorStack.pop();
+            operandStack.push(calc(num1, num2, o));
         }
     }
 
@@ -78,16 +97,13 @@ public class ArithmeticStack {
      */
     private double calcTotalRes() {
         Character o = operatorStack.pop();
-        double res = 0;
         while (o != null) {
             Double num2 = operandStack.pop();
             Double num1 = operandStack.pop();
-            num1 = num1 != null ? num1 : 0;
-            num2 = num2 != null ? num2 : 0;
-            res += calc(num1, num2, o);
+            operandStack.push(calc(num1, num2, o));
             o = operatorStack.pop();
         }
-        return res;
+        return operandStack.pop();
     }
 
     /**
@@ -96,7 +112,7 @@ public class ArithmeticStack {
      * @param num2
      * @param operator
      */
-    private double calc(double num1, double num2, char operator) {
+    private double calc(Double num1, Double num2, char operator) {
         double res = 0;
         switch (operator) {
             case '+':
@@ -136,10 +152,23 @@ public class ArithmeticStack {
         return (a == '*' || a == '/') && (b == '+' || b == '-');
     }
 
+    /**
+     *
+     * @param a
+     * @return
+     */
+    private boolean isHighPriority(char a) {
+        return (a == '*' || a == '/');
+    }
+
     public static void main(String[] args) {
-        ArithmeticStack stack = new ArithmeticStack();
-//        System.out.println(stack.calculate("34+13*9+44-12/3"));
+        ArithmeticCalc stack = new ArithmeticCalc();
+        System.out.println(stack.calculate("34+13*9+44-12/3"));
+        System.out.println(stack.calculate("34+13*9+44-12/3-10"));
+        System.out.println(stack.calculate("1000-20-30-40/3"));
+        System.out.println(stack.calculate("3-5*8-6"));
         System.out.println(stack.calculate("3+5*8-6"));
+        System.out.println(stack.calculate("34+13*9+44-12/3+5+2"));
     }
 
 }
