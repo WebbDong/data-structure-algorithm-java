@@ -26,14 +26,18 @@ public class ArrayDilatationStack<T> {
      */
     private int capacity;
 
-    public int getCount() {
-        return count;
-    }
-
     public ArrayDilatationStack(int capacity) {
         this.elements = (T[]) new Object[capacity];
         this.count = 0;
         this.capacity = capacity;
+    }
+
+    /**
+     * 获取元素个数
+     * @return
+     */
+    public int getCount() {
+        return count;
     }
 
     /**
@@ -73,11 +77,22 @@ public class ArrayDilatationStack<T> {
         return this.elements[count - 1];
     }
 
+    /**
+     * 清空栈
+     */
     public void clear() {
         for (int i = 0; i < count; i++) {
             this.elements[i] = null;
         }
         count = 0;
+    }
+
+    /**
+     * 是否是空栈
+     * @return
+     */
+    public boolean isEmpty() {
+        return count == 0;
     }
 
     public void printAllElement() {

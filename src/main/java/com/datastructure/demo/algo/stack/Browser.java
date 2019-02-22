@@ -31,16 +31,94 @@ public class Browser {
         forwardStack = new ArrayDilatationStack<>(5);
     }
 
+    /**
+     * 打开页面
+     * @param url
+     */
     public void open(String url) {
         if (this.currentUrl != null) {
-            this.backStack.push(url);
+            this.backStack.push(this.currentUrl);
             this.forwardStack.clear();
         }
         this.currentUrl = url;
     }
 
-    public static void main(String[] args) {
+    /**
+     * 后退
+     */
+    public void goBack() {
+        if (this.canGoBack()) {
+            this.forwardStack.push(this.currentUrl);
+            this.currentUrl = backStack.pop();
+        }
+    }
 
+    /**
+     * 前进
+     */
+    public void goForward() {
+        if (this.canGoForward()) {
+            this.backStack.push(this.currentUrl);
+            this.currentUrl = forwardStack.pop();
+        }
+    }
+
+    public void checkCurrentUrl() {
+        System.out.println("current url: " + this.currentUrl);
+    }
+
+    private boolean canGoBack() {
+        return !this.backStack.isEmpty();
+    }
+
+    private boolean canGoForward() {
+        return !this.forwardStack.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        Browser browser = new Browser();
+        browser.open("http://www.baidu.com");
+        browser.open("http://www.tudou.com");
+        browser.open("http://www.github.com");
+        browser.open("http://www.youku.com");
+        browser.checkCurrentUrl();
+        browser.goBack();
+        browser.checkCurrentUrl();
+        browser.goBack();
+        browser.goBack();
+        browser.goBack();
+        browser.goBack();
+        browser.goBack();
+        browser.goBack();
+        browser.checkCurrentUrl();
+        browser.goForward();
+        browser.checkCurrentUrl();
+        browser.goForward();
+        browser.checkCurrentUrl();
+        browser.goForward();
+        browser.goForward();
+        browser.goForward();
+        browser.goForward();
+        browser.goForward();
+        browser.checkCurrentUrl();
+
+        browser.goBack();
+        browser.goBack();
+        browser.checkCurrentUrl();
+        browser.open("http://china.nba.com");
+        browser.checkCurrentUrl();
+        browser.goBack();
+        browser.goBack();
+        browser.goBack();
+        browser.goBack();
+        browser.goBack();
+        browser.checkCurrentUrl();
+        browser.goForward();
+        browser.goForward();
+        browser.goForward();
+        browser.goForward();
+        browser.goForward();
+        browser.checkCurrentUrl();
     }
 
 }
