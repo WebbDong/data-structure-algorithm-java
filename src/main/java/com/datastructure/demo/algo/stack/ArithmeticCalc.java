@@ -169,6 +169,7 @@ public class ArithmeticCalc {
         System.out.println(stack.calculate("3-5*8-6"));
         System.out.println(stack.calculate("3+5*8-6"));
         System.out.println(stack.calculate("34+13*9+44-12/3+5+2"));
+        System.out.println(stack.calculate("3+5*8/2-6"));
     }
 
 }
