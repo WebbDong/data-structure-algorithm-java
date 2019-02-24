@@ -1,7 +1,7 @@
 package com.datastructure.demo.algo.queue;
 
 /**
- * @Description: 基于
+ * @Description: 基于数组的顺序队列
  * @Author: Webb Dong
  * @CreateDate: 2019/02/22 16:58
  * @UpdateUser: Webb Dong
@@ -17,22 +17,25 @@ public class ArrayQueue<T> {
     private T[] elements;
 
     /**
-     * 元素个数
-     */
-    private int count;
-
-    /**
      * 栈大小
      */
     private int capacity;
 
-    private int i;
+    /**
+     * 头下标
+     */
+    private int head;
+
+    /**
+     * 尾下标
+     */
+    private int tail;
 
     public ArrayQueue(int capacity) {
         this.elements = (T[]) new Object[capacity];
         this.capacity = capacity;
-        this.count = 0;
-        this.i = 0;
+        this.head = 0;
+        this.tail = 0;
     }
 
     /**
@@ -40,9 +43,12 @@ public class ArrayQueue<T> {
      * @param data
      * @return
      */
-    public void enqueue(T data) {
-        dilatation();
-        this.elements[count++] = data;
+    public boolean enqueue(T data) {
+        if (tail == capacity) {
+            return false;
+        }
+        this.elements[tail++] = data;
+        return true;
     }
 
     /**
@@ -50,42 +56,14 @@ public class ArrayQueue<T> {
      * @return
      */
     public T dequeue() {
-        if (count == 0) {
+        if (head == tail) {
             return null;
         }
-        T data = this.elements[i++];
-        count--;
-        return data;
-    }
-
-    public int getCount() {
-        return this.count;
-    }
-
-    /**
-     * 扩容
-     */
-    private void dilatation() {
-        if (capacity == count) {
-            resize(this.capacity * 2);
-        }
-    }
-
-    /**
-     * 调整大小
-     * @param newCapacity
-     */
-    private void resize(int newCapacity) {
-        T[] newElements = (T[]) new Object[newCapacity];
-        for (int i = 0; i < count; i++) {
-            newElements[i] = this.elements[i];
-        }
-        this.capacity = newCapacity;
-        this.elements = newElements;
+        return this.elements[head++];
     }
 
     public static void main(String[] args) {
-        ArrayQueue<Integer> queue = new ArrayQueue<>(4);
+        ArrayQueue<Integer> queue = new ArrayQueue<>(5);
         queue.enqueue(100);
         queue.enqueue(200);
         queue.enqueue(300);
@@ -93,7 +71,7 @@ public class ArrayQueue<T> {
         queue.enqueue(500);
         queue.enqueue(600);
 
-        for (int i = 0, length = queue.getCount(); i < length; i++) {
+        for (int i = 0, length = 5; i < length; i++) {
             System.out.println(queue.dequeue());
         }
 
@@ -105,7 +83,7 @@ public class ArrayQueue<T> {
         queue.enqueue(6000);
         queue.enqueue(7000);
 
-        for (int i = 0, length = queue.getCount(); i < length; i++) {
+        for (int i = 0, length = 5; i < length; i++) {
             System.out.println(queue.dequeue());
         }
     }
