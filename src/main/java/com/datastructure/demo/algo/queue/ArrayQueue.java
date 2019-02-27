@@ -17,7 +17,7 @@ public class ArrayQueue<T> {
     private T[] elements;
 
     /**
-     * 栈大小
+     * 队列大小
      */
     private int capacity;
 

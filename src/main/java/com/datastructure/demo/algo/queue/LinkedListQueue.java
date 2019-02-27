@@ -1,38 +1,39 @@
 package com.datastructure.demo.algo.queue;
 
+import com.datastructure.demo.algo.linkedlist.model.NormalNode;
+
 /**
- * @Description: 基于数组的动态顺序队列
+ * @Description: 基于链表的链式队列
  * @Author: Webb Dong
- * @CreateDate: 2019/02/26 17:44
+ * @CreateDate: 2019/02/27 15:58
  * @UpdateUser: Webb Dong
- * @UpdateDate: 2019/02/26 17:44
+ * @UpdateDate: 2019/02/27 15:58
  * @UpdateRemark:
  * @Version: 1.0.0
  */
-public class ArrayDilatationQueue<T> {
+public class LinkedListQueue<T extends Comparable<T>> {
 
     /**
-     * 元素
+     * 头节点
      */
-    private T[] elements;
+    private NormalNode<T> head;
+
+    /**
+     * 尾结点
+     */
+    private NormalNode<T> tail;
+
+    /**
+     * 元素数量
+     */
+    private int count;
 
     /**
      * 队列大小
      */
     private int capacity;
 
-    /**
-     * 头下标
-     */
-    private int head;
-
-    /**
-     * 尾下标
-     */
-    private int tail;
-
-    public ArrayDilatationQueue(int capacity) {
-        this.elements = (T[]) new Object[capacity];
+    public LinkedListQueue(int capacity) {
         this.capacity = capacity;
     }
 
@@ -42,20 +43,19 @@ public class ArrayDilatationQueue<T> {
      * @return
      */
     public boolean enqueue(T data) {
-        if (tail == capacity) {
-            if (head == 0) {
-                // 队列已满
-                return false;
-            }
-            // 搬移整理数据，整体移动到队列的最前端
-            for (int i = head; i < tail; i++) {
-                this.elements[i - head] = this.elements[i];
-            }
-            // 重新更新head和tail
-            tail -= head;
-            head = 0;
+        if (count == capacity) {
+            // 队列已满
+            return false;
         }
-        this.elements[tail++] = data;
+        NormalNode<T> newNode = new NormalNode<>(data);
+        if (tail == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.setNext(newNode);
+            tail = newNode;
+        }
+        count++;
         return true;
     }
 
@@ -64,22 +64,29 @@ public class ArrayDilatationQueue<T> {
      * @return
      */
     public T dequeue() {
-        if (head == tail) {
-            // 队列已空
+        if (count == 0) {
             return null;
         }
-        return this.elements[head++];
+        NormalNode<T> node = head;
+        head = head.getNext();
+        count--;
+        if (count == 0) {
+            tail = null;
+        }
+        return node.getData();
     }
 
     public void printAll() {
-        for (int i = head; i < tail; i++) {
-            System.out.print(this.elements[i] + ", ");
+        NormalNode<T> currentNode = head;
+        while (currentNode != null) {
+            System.out.print(currentNode.getData() + ", ");
+            currentNode = currentNode.getNext();
         }
         System.out.println();
     }
 
     public static void main(String[] args) {
-        ArrayDilatationQueue<Integer> queue = new ArrayDilatationQueue<>(5);
+        /*LinkedListQueue<Integer> queue = new LinkedListQueue<>(5);
         queue.enqueue(100);
         queue.enqueue(200);
         queue.enqueue(300);
@@ -118,7 +125,9 @@ public class ArrayDilatationQueue<T> {
         queue.enqueue(50000);
         queue.enqueue(60000);
         queue.enqueue(70000);
-        queue.printAll();
+        queue.printAll();*/
+
+        System.out.println(9 % 8);
     }
 
 }
