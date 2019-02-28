@@ -86,7 +86,7 @@ public class LinkedListQueue<T extends Comparable<T>> {
     }
 
     public static void main(String[] args) {
-        /*LinkedListQueue<Integer> queue = new LinkedListQueue<>(5);
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>(5);
         queue.enqueue(100);
         queue.enqueue(200);
         queue.enqueue(300);
@@ -125,9 +125,7 @@ public class LinkedListQueue<T extends Comparable<T>> {
         queue.enqueue(50000);
         queue.enqueue(60000);
         queue.enqueue(70000);
-        queue.printAll();*/
-
-        System.out.println(9 % 8);
+        queue.printAll();
     }
 
 }
