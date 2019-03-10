@@ -25,7 +25,7 @@ public class Step {
     }
 
     public static void main(String[] args) {
-        System.out.println(f(7) + "种走法");
+        System.out.println(f(4) + "种走法");
     }
 
 }
