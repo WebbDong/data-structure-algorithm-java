@@ -24,7 +24,7 @@ public class SelectionSort {
         if (arr == null || arr.length == 0) {
             return;
         }
-        for (int i = 0, length = arr.length; i < length; i++) {
+        for (int i = 0, length = arr.length; i < length - 1; i++) {
             int minIndex = i;
             for (int j = minIndex + 1; j < length; j++) {
                 if (arr[minIndex] > arr[j]) {

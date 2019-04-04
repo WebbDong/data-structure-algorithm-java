@@ -29,7 +29,7 @@ public class BubbleSort {
      * @param arr
      */
     private static void bubbleSort(int[] arr) {
-        for (int i = 0, length = arr.length; i < length; i++) {
+        for (int i = 0, length = arr.length; i < length - 1; i++) {
             for (int j = 0; j < length - i - 1; j++) {
                 if (arr[j] > arr[j + 1]) {
                     int temp = arr[j];
@@ -45,7 +45,7 @@ public class BubbleSort {
      * @param arr
      */
     private static void bubbleSortOptimizing(int[] arr) {
-        for (int i = 0, length = arr.length; i < length; i++) {
+        for (int i = 0, length = arr.length; i < length - 1; i++) {
             // 每一次冒泡结束后，如果没有交换就代表已经是有序了，结束循环
             boolean isExChanged = false;
             for (int j = 0; j < length - i - 1; j++) {
