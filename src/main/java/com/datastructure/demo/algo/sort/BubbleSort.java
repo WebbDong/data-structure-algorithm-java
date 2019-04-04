@@ -17,8 +17,11 @@ public class BubbleSort {
 
 //        int[] arr2 = {1, 2, 3, 4, 6, 8, 9};
         int[] arr2 = {9, 8, 6, 4, 3, 2, 1};
+        int[] arr3 = {9, 8, 7, 6, 5, 4, 3, 2, 1};
         bubbleSortOptimizing(arr2);
         System.out.println(Arrays.toString(arr2));
+        bubbleSortOptimizing(arr3);
+        System.out.println(Arrays.toString(arr3));
     }
 
     /**
