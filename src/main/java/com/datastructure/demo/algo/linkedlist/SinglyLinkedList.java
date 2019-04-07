@@ -323,6 +323,31 @@ public class SinglyLinkedList<T extends Comparable<T>> {
     }
 
     /**
+     * 链表冒泡排序
+     */
+    public void bubbleSort() {
+        NormalNode<T> currentNode = head;
+        for (int i = 0; i < this.size - 1; i++) {
+
+        }
+    }
+
+    /**
+     *
+     * @param node
+     * @return
+     */
+    private NormalNode<T> findPrevNode(NormalNode<T> node) {
+        NormalNode<T> currentNode = head;
+        while (currentNode.getNext() != null) {
+            if (currentNode.getNext().getData().equals(node.getData())) {
+                return currentNode;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 检测是否有环，使用Set
      * @param head
      * @return
