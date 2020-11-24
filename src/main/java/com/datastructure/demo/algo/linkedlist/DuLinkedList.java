@@ -23,6 +23,14 @@ public class DuLinkedList<T> {
      */
     private DuLinkedNode<T> last;
 
+    public DuLinkedNode<T> getHead() {
+        return head;
+    }
+
+    public DuLinkedNode<T> getLast() {
+        return last;
+    }
+
     /**
      * 根据索引查找
      * @param index
@@ -275,7 +283,7 @@ public class DuLinkedList<T> {
      * 删除指定的节点
      * @param current
      */
-    private void deleteNode(DuLinkedNode<T> current) {
+    public void deleteNode(DuLinkedNode<T> current) {
         if (current == head || current.getData().equals(head.getData())) {
             // 删除头节点
             head = current.getNext();
