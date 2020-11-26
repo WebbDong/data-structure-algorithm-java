@@ -509,7 +509,7 @@ public class SinglyLinkedList<T extends Comparable<T>> {
      * @param currentNode
      * @param preNode
      */
-    private void deleteNode(NormalNode<T> currentNode, NormalNode<T> preNode) {
+    public void deleteNode(NormalNode<T> currentNode, NormalNode<T> preNode) {
         if (preNode == null) {
             head = currentNode.getNext();
             currentNode.setNext(null);
@@ -518,6 +518,44 @@ public class SinglyLinkedList<T extends Comparable<T>> {
             currentNode.setNext(null);
         }
         size--;
+    }
+
+    /**
+     * 给一个不知道长度的链表，删除链表的倒数第N个节点，返回链表头节点
+     * 例如：链表 1 -> 2 -> 3 -> 4 -> 5
+     * 当删除了倒数第二个节点后，链表变为 1 -> 2 -> 3 -> 5
+     */
+    public static <T extends Comparable<T>> NormalNode<T> removeFromEnd(NormalNode<T> head, int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("参数n不能为负数");
+        }
+        if (n == 0) {
+            return head;
+        }
+
+        NormalNode<T> preNode = head;
+        NormalNode<T> curNode = head;
+        int i = 0;
+        for (; i < n; i++) {
+            curNode = curNode.getNext();
+            if (curNode == null) {
+                break;
+            }
+        }
+
+        if (i < (n - 1)) {
+            return head;
+        }
+        if (curNode == null) {
+            return head.getNext();
+        }
+
+        while (curNode.getNext() != null) {
+            preNode = preNode.getNext();
+            curNode = curNode.getNext();
+        }
+        preNode.setNext(preNode.getNext().getNext());
+        return head;
     }
 
     public static void main(String[] args) {
@@ -641,6 +679,26 @@ public class SinglyLinkedList<T extends Comparable<T>> {
 
         System.out.println("-------------- middleNode -----------------");
         System.out.println(middleNode(newHead));
+
+        System.out.println("----------------- removeFromEnd -------------------");
+        SinglyLinkedList<Integer> list3 = new SinglyLinkedList<>();
+        list3.insertToTail(100);
+        list3.insertToTail(200);
+        list3.insertToTail(300);
+        list3.insertToTail(400);
+        list3.insertToTail(500);
+        list3.insertToTail(600);
+        printLinkedList(list3.getHead());
+        final NormalNode<Integer> head = SinglyLinkedList.removeFromEnd(list3.getHead(), 7);
+        printLinkedList(head);
+    }
+
+    public static <T extends Comparable<T>> void printLinkedList(NormalNode<T> head) {
+        while (head != null) {
+            System.out.print(head.getData() + ", ");
+            head = head.getNext();
+        }
+        System.out.println();
     }
 
     public static boolean isPalindrome(String str) {

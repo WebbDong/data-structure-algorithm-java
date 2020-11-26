@@ -362,6 +362,7 @@ public class CircularDuLinkedList<T> {
         nextNode.setPrevious(previousNode);
         node.setNext(null);
         node.setPrevious(null);
+        node.setData(null);
         return head;
     }
 

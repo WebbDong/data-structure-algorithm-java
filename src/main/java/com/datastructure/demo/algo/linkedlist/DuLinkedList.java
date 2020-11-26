@@ -299,6 +299,29 @@ public class DuLinkedList<T> {
         current.setNext(null);
     }
 
+    /**
+     * 给一个不知道长度的链表，删除链表的倒数第N个节点，返回链表头节点
+     * 例如：链表 1 -> 2 -> 3 -> 4 -> 5
+     * 当删除了倒数第二个节点后，链表变为 1 -> 2 -> 3 -> 5
+     */
+    public static <T> DuLinkedNode<T> removeFromEnd(DuLinkedNode<T> head, int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("n 参数非法");
+        }
+        DuLinkedNode<T> node = head;
+        for (int i = 0; i < n; i++) {
+            node = node.getPrevious();
+        }
+        final DuLinkedNode<T> previousNode = node.getPrevious();
+        final DuLinkedNode<T> nextNode = node.getNext();
+        previousNode.setNext(nextNode);
+        nextNode.setPrevious(previousNode);
+        node.setPrevious(null);
+        node.setNext(null);
+        node.setData(null);
+        return head;
+    }
+
     public static void main(String[] args) {
         System.out.println("----------------- insertToHead -------------------");
         DuLinkedList<Integer> list1 = new DuLinkedList<>();
@@ -362,6 +385,18 @@ public class DuLinkedList<T> {
         list2.inverse();
         list2.printAllStartHead();
         list2.printAllStartLast();
+
+        System.out.println("----------------- removeFromEnd -------------------");
+        CircularDuLinkedList<Integer> list3 = new CircularDuLinkedList<>();
+        list3.insertToTail(100);
+        list3.insertToTail(200);
+        list3.insertToTail(300);
+        list3.insertToTail(400);
+        list3.insertToTail(500);
+        list3.insertToTail(600);
+        list3.printAllStartHead();
+        CircularDuLinkedList.removeFromEnd(list3.getHead(), 7);
+        list3.printAllStartHead();
     }
 
 }
