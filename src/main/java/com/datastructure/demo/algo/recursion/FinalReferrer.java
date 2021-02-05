@@ -1,9 +1,13 @@
 package com.datastructure.demo.algo.recursion;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveTask;
 
 /**
  * @Description:
@@ -70,20 +74,30 @@ public class FinalReferrer {
         USER_LIST.add(user6);
     }
 
-    public static void main(String[] args) {
-        System.out.println("最终推荐人是:" + findFinalReferrer(1L));
+    @Data
+    private static class User {
+
+        private Long id;
+
+        private String name;
+
+        private Integer age;
+
+        private String email;
+
+        /**
+         * 推荐人ID
+         */
+        private Long referrerId;
+
     }
 
-    /**
-     * 寻找最终推荐人
-     * @return
-     */
-    private static Long findFinalReferrer(Long id) {
-        Long referrerId = selectReferrerId(id);
-        if (referrerId == null) {
-            return id;
-        }
-        return findFinalReferrer(referrerId);
+    public static void main(String[] args) {
+        System.out.println("最终推荐人ID是:" + getFinalReferrer(1L));
+        System.out.println("最终推荐人ID是:" + getFinalReferrer(6L));
+        System.out.println("----------------------------------------------");
+        System.out.println("最终推荐人ID是:" + getFinalReferrer2(1L));
+        System.out.println("最终推荐人ID是:" + getFinalReferrer2(6L));
     }
 
     /**
@@ -101,19 +115,67 @@ public class FinalReferrer {
         return null;
     }
 
+    /**
+     * 获取最终推荐人
+     * @param id
+     * @return
+     */
+    private static Long getFinalReferrer(Long id) {
+        Long finalReferrerId = findFinalReferrer(id);
+        if (Objects.equals(id, finalReferrerId)) {
+            return null;
+        }
+        return finalReferrerId;
+    }
+
+    // --------------- 递归方式 -------------------
+
+    /**
+     * 寻找最终推荐人
+     * @return
+     */
+    private static Long findFinalReferrer(Long id) {
+        Long referrerId = selectReferrerId(id);
+        if (referrerId == null) {
+            return id;
+        }
+        return findFinalReferrer(referrerId);
+    }
+
+    // --------------- ForkJoin 方式 -------------------
+
     @Data
-    private static class User {
+    @AllArgsConstructor
+    private static class FindFinalReferrerTask extends RecursiveTask<Long> {
 
-        private Long id;
+        public Long id;
 
-        private String name;
+        @Override
+        protected Long compute() {
+            Long frID = selectReferrerId(id);
+            if (frID == null) {
+                return id;
+            } else {
+                FindFinalReferrerTask task1 = new FindFinalReferrerTask(frID);
+                task1.fork();
+                task1.compute();
+                return task1.join();
+            }
+        }
 
-        private Integer age;
+    }
 
-        private String email;
-
-        private Long referrerId;
-
+    /**
+     * 使用 ForkJoin 实现
+     * @param id
+     * @return
+     */
+    private static Long getFinalReferrer2(Long id) {
+        final ForkJoinPool fjp = new ForkJoinPool();
+        final FindFinalReferrerTask task = new FindFinalReferrerTask(id);
+        Long frID = fjp.invoke(task);
+        fjp.shutdown();
+        return Objects.equals(id, frID) ? null : frID;
     }
 
 }
