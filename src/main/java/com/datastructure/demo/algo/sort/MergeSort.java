@@ -1,22 +1,26 @@
 package com.datastructure.demo.algo.sort;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveTask;
 
 /**
- * @Description: 归并排序
- * @Author: Webb Dong
- * @CreateDate: 2019/07/22 13:41
- * @UpdateUser: Webb Dong
- * @UpdateDate: 2019/07/22 13:41
- * @UpdateRemark:
- * @Version: 1.0.0
+ * 归并排序
+ *      1、基于分治思想，先拆分再合并
+ *      2、稳定的排序算法
+ *      3、最好情况、最坏情况，平均情况，时间复杂度都是 O(nlogn)
+ *      4、空间复杂度 O(nlogn)，所以不是原地排序算法
  */
 public class MergeSort {
 
     public static void main(String[] args) {
-        int[] arr1 = {500, 400, 300, 100, 90, 9, 5, 1};
-//        recursionMergeSort(arr1);
-        iterationMergeSort(arr1);
+        int[] arr1 = {500, 400, 300, 100, 0, 90, 9, 5, 1, 600};
+        recursionMergeSort(arr1);
+//        iterationMergeSort(arr1);
+//        forkJoinMergeSort(arr1);
         System.out.println(Arrays.toString(arr1));
     }
 
@@ -42,13 +46,13 @@ public class MergeSort {
      * @param begin
      * @param end
      */
-    public static void divide(int[] arr, int begin, int end) {
+    private static void divide(int[] arr, int begin, int end) {
         // 如果元素只有一个或者没有元素直接返回
         if (end - begin < 2) {
             return;
         }
 
-        // 除以2
+        // 除以2，将数组分割成两半
         int mid = (begin + end) >> 1;
         divide(arr, begin, mid);
         divide(arr, mid, end);
@@ -86,7 +90,48 @@ public class MergeSort {
 
     // --------------- 迭代方式 -------------------
 
-    public static void iterationMergeSort(int[] arr1) {
+    public static void iterationMergeSort(int[] arr) {
+    }
+
+
+
+    // --------------- 使用 ForkJoin 方式 -------------------
+
+    @Data
+    @AllArgsConstructor
+    private static class MergeSortTask extends RecursiveTask<int[]> {
+
+        private int[] arr;
+
+        private int begin;
+
+        private int end;
+
+        @Override
+        protected int[] compute() {
+            if (end - begin < 2) {
+                return arr;
+            } else {
+                int mid = (end + begin) >> 1;
+                MergeSortTask task1 = new MergeSortTask(arr, begin, mid);
+                MergeSortTask task2 = new MergeSortTask(arr, mid, end);
+                task1.fork();
+                task2.compute();
+                task1.join();
+                merge(arr, begin, mid, end);
+            }
+            return arr;
+        }
+
+    }
+
+    public static void forkJoinMergeSort(int[] arr) {
+        tempArr = new int[arr.length >> 1];
+        final ForkJoinPool fjp = new ForkJoinPool();
+        final MergeSortTask task = new MergeSortTask(arr, 0, arr.length);
+        fjp.execute(task);
+        task.join();
+        fjp.shutdown();
     }
 
 }
