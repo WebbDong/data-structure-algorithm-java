@@ -1,22 +1,17 @@
 package com.datastructure.demo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person implements Comparable<Person> {
 
     private int age;
 
     private String name;
-
-    public Person() {
-
-    }
-
-    public Person(int age, String name) {
-        this.age = age;
-        this.name = name;
-    }
 
     public int compareTo(Person o) {
         if (o == null) {
