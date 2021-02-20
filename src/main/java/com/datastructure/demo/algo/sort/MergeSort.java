@@ -100,7 +100,7 @@ public class MergeSort {
     public static void iterationMergeSort(int[] arr) {
         final int len = arr.length;
         tempArr = new int[len];
-        for (int w = 1; w < len; w <<= 1) {
+        for (int w = 1; w < len; w *= 2) {
             for (int b = 0; b < len - w; b += w + w) {
                 merge2(arr, b, b + w, Math.min(b + w + w, len));
             }
@@ -127,7 +127,7 @@ public class MergeSort {
         }
 
         for (int i = b; i < e; i++) {
-            if (tai > m) { // 当左半部分数组操作完后，直接将右半部分的元素赋值
+            if (tai >= m) { // 当左半部分数组操作完后，直接将右半部分的元素赋值
                 arr[i] = tempArr[ri++];
             } else if (ri >= e) { // 当右半部分数组操作完后，直接将左半部分的元素赋值
                 arr[i] = tempArr[tai++];
